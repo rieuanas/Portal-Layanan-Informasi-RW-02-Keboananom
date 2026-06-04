@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal RW 02 - Modern Admin System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb; /* Biru Modern */
+            --secondary: #64748b;
+            --success: #22c55e;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        /* --- Header & Hero Section --- */
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            opacity: 0.8;
+            font-weight: 300;
+            font-size: 1.1rem;
+        }
+
+        /* --- Modern Navigation --- */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- Section Styling --- */
+        section {
+            display: none; /* Hidden by default for SPA effect */
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* --- Cards & Grid --- */
+        .grid-profile {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card-member {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        .card-member:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-member strong {
+            display: block;
+            color: var(--primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Table Styling --- */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--secondary);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* --- Service Cards --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            text-align: left;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: #eff6ff;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.8rem;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-download:hover {
+            background: #1e40af;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-excel {
+            display: inline-flex;
+            align-items: center;
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .btn-excel:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* --- Footer & Info --- */
+        .info-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            nav { gap: 0.25rem; }
+            nav a { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Portal Informasi Layanan RW 02</h1>
+    <p>Keboananom • Gedangan • Sidoarjo</p>
+</header>
+
+<nav id="mainNav">
+    <a onclick="showSection('profil')" id="link-profil">Profil</a>
+    <a onclick="showSection('rundown')" id="link-rundown">Rundown</a>
+    <a onclick="showSection('rekapitulasi')" id="link-rekapitulasi">Rekap Surat</a>
+    <a onclick="showSection('layanan')" id="link-layanan">Layanan</a>
+    <a onclick="showSection('kontak')" id="link-kontak">Kontak</a>
+</nav>
+
+<div class="container">
+    
+    <section id="profil" class="active">
+        <h2>Profil & Kepengurusan RW</h2>
+        <p style="margin-bottom: 2rem; color: var(--secondary);">RW 02 berkomitmen untuk memberikan pelayanan prima, transparan, dan akuntabel bagi seluruh warga dalam rangka mewujudkan lingkungan yang harmonis.</p>
+        <div class="grid-profile">
+            <div class="card-member">
+                <strong>Ketua RW</strong>
+                <h3 style="margin-top: 0.5rem;">Didik Sugiarto</h3>
+            </div>
+            <div class="card-member">
+                <strong>Sekretaris</strong>
+                <h3 style="margin-top: 0.5rem;">Firman</h3>
+            </div>
+            <div class="card-member">
+                <strong>Bendahara</strong>
+                <h3 style="margin-top: 0.5rem;">Suprianto</h3>
+            </div>
+        </div>
+    </section>
+
+<section id="rundown">
+        <h2>Agenda & Rundown Kegiatan Juni 2026</h2>
+        <p style="margin-bottom: 1.5rem; color: var(--secondary);">Berikut adalah detail jadwal kegiatan operasional dan kemasyarakatan di lingkungan RW 02.</p>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">Tanggal</th>
+                        <th style="width: 120px;">Waktu</th>
+                        <th>Kegiatan</th>
+                        <th>Lokasi / Tempat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>07 Juni 2026</strong></td>
+                        <td>06:00 - 10:00</td>
+                        <td>Kerja Bakti Massal</td>
+                        <td>Seluruh Area Fasum</td>
+                    </tr>
+                    <tr>
+                        <td><strong>08 Juni 2026</strong></td>
+                        <td>19:30 - 21:00</td>
+                        <td>Rapat Koordinasi Pengurus RW & RT</td>
+                        <td>Balai RW</td>
+                    </tr>
+                    <tr>
+                        <td><strong>09 Juni 2026</strong></td>
+                        <td>08:00 - 11:30</td>
+                        <td>Layanan Posyandu Balita & Cek Kesehatan Lansia</td>
+                        <td>Poskamling Utama</td>
+                    </tr>
+                    <tr>
+                        <td><strong>10 Juni 2026</strong></td>
+                        <td>19:00 - 20:30</td>
+                        <td>Pembinaan Karang Taruna</td>
+                        <td>Balai RW</td>
+                    </tr>
+                    <tr>
+                        <td><strong>11 Juni 2026</strong></td>
+                        <td>16:00 - 17:30</td>
+                        <td>Penyuluhan Pengelolaan Sampah</td>
+                        <td>Balai RW</td>
+                    </tr>
+                    <tr>
+                        <td><strong>12 Juni 2026</strong></td>
+                        <td>19:00 - 21:00</td>
+                        <td>Pelayanan Administrasi Langsung (On-the-spot)</td>
+                        <td>Kantor Sekretariat Desa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>13 Juni 2026</strong></td>
+                        <td>06:30 - 08:00</td>
+                        <td>Senam Sehat & Sarapan Bersama Warga</td>
+                        <td>Lapangan Serbaguna</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+<section id="rekapitulasi">
+        <h2>Rekapitulasi Surat (Maret – Mei 2026)</h2>
+        <p style="margin-bottom: 1.5rem; color: var(--secondary);">Laporan bulanan mutasi surat masuk dan surat keluar di lingkungan RW 02.</p>
+        
+        <a href="https://docs.google.com/spreadsheets/d/1kBFtfSxJbqu36XkAuNLlGZG1o1pT5qE6/edit?usp=drive_link&ouid=108466627387373328305&rtpof=true&sd=truehttps://docs.google.com/spreadsheets/d/1JsfM7tFq21q5Rz9AWW5qs0520nbW9rX9/edit?usp=drive_link&ouid=108466627387373328305&rtpof=true&sd=true" target="_blank" class="btn-excel">
+            <span style="margin-right:10px">📊</span> Data Lengkap Rekapitulasi Surat
+        </a>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bulan</th>
+                        <th><span title="Domisili">🏠</span> Domisili</th>
+                        <th><span title="Izin Kos">🏘️</span> Izin Kos</th>
+                        <th><span title="Izin Usaha">💰</span> Izin Usaha</th>
+                        <th><span title="Izin Kegiatan">📑</span> Izin Kegiatan</th>
+                        <th style="color: #334EAC;"><strong>📤 Surat Keluar</strong></th>
+                        <th style="color: #e11d48;">📥 Surat Masuk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Mei</strong></td>
+                        <td>12</td>
+                        <td>6</td>
+                        <td>8</td>
+                        <td>22</td>
+                        <td style="background-color: #f8fafc;"><strong>48</strong></td>
+                        <td>17</td>
+                    </tr>
+                    <tr>
+                        <td><strong>April</strong></td>
+                        <td>8</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>11</td>
+                        <td style="background-color: #f8fafc;"><strong>27</strong></td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maret</strong></td>
+                        <td>10</td>
+                        <td>5</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td style="background-color: #f8fafc;"><strong>30</strong></td>
+                        <td>14</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr style="background-color: #eff6ff; font-weight: bold; border-top: 2px solid var(--primary);">
+                        <td>TOTAL</td>
+                        <td>30</td>
+                        <td>15</td>
+                        <td>19</td>
+                        <td>41</td>
+                        <td style="color: var(--primary);">105</td>
+                        <td style="color: #e11d48;">43</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--primary); flex: 1; min-width: 200px;">
+                <small style="color: var(--secondary); text-transform: uppercase;">Total Surat Keluar</small>
+                <h3 style="font-size: 1.5rem;">105 <span style="font-size: 0.9rem; font-weight: normal;">Surat</span></h3>
+            </div>
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #e11d48; flex: 1; min-width: 200px;">
+                <small style="color: var(--secondary); text-transform: uppercase;">Total Surat Masuk</small>
+                <h3 style="font-size: 1.5rem;">43 <span style="font-size: 0.9rem; font-weight: normal;">Surat</span></h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="layanan">
+        <h2>Layanan Mandiri Warga</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div>
+                    <div class="service-icon">📬</div>
+                    <h3>Surat Keterangan Domisili</h3>
+                    <p style="font-size: 0.85rem; color: var(--secondary);">Digunakan untuk membuktikan tempat tinggal resmi warga di lingkungan RW 02 Desa Keboananom.</p>
+                </div>
+                <a href="https://docs.google.com/document/d/1V6_MOmI3qwdh-OSLoagD6KnXHBj3S6-twMsUnxNAgYA/edit?tab=t.0" class="btn-download">Unduh Template</a>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <div class="service-icon">🏘️</div>
+                    <h3>Surat Izin Kos</h3>
+                    <p style="font-size: 0.85rem; color: var(--secondary);">Digunakan sebagai bukti bahwa yang bersangkutan telah memperoleh izin untuk tinggal di rumah.</p>
+                </div>
+                <a href="https://docs.google.com/document/d/1hzYnvK3LotAcitDsUmabayQQxykSebWapfWdrk-3ItU/edit?usp=sharing" class="btn-download">Unduh Template</a>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <div class="service-icon">💰</div>
+                    <h3>Surat Izin Usaha</h3>
+                    <p style="font-size: 0.85rem; color: var(--secondary);">Digunakan sebagai bukti persetujuan bagi warga yang akan membuka atau menjalankan usaha dilingkungan wilayah RW 02 Desa Kebonanom.</p>
+                </div>
+                <a href="ttps://docs.google.com/document/d/1czyYkC0zny91d-u8vKXDVrPxY7gf3wflRczS70Q9_Ow/edit?usp=sharing" class="btn-download">Unduh Template</a>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <div class="service-icon">📑️</div>
+                    <h3>Surat Izin Kegiatan</h3>
+                    <p style="font-size: 0.85rem; color: var(--secondary);">Dibuat untuk meminta persetujuan atau dukungan dari pihak terkait agar suatu kegiatan dapat dilaksanakan secara resmi dan tertib di lingkungan RW 02 Desa Keboananom.</p>
+                </div>
+                <a href="https://docs.google.com/document/d/1gczsgnvFHcoL7hYevjyy-U5_TXVDFid5/edit?usp=sharing&ouid=114734499530633948123&rtpof=true&sd=true" class="btn-download">Unduh Template</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="kontak">
+        <h2>Hubungi Kami</h2>
+        <div class="info-box">
+            <div>
+                <h4 style="margin-bottom: 1rem;">Kantor Sekretariat</h4>
+                <p>📍 Balai RW 02, Keboananom, Gedangan, Sidoarjo</p>
+                <p>📞 WhatsApp: 0812-3456-7890</p>
+                <p>📧 rt03rw02keboananom@gmail.com</p>
+            </div>
+            <div style="background: var(--light); padding: 1.5rem; border-radius: 12px;">
+                <h4 style="margin-bottom: 1rem;">Jam Operasional</h4>
+                <p><strong>Senin - Jumat:</strong> 19:00 - 21:00 WIB</p>
+                <p><strong>Sabtu:</strong> 09:00 - 12:00 WIB</p>
+                <p><strong>Minggu:</strong> Libur (Hanya Darurat)</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p><strong>RW 02 Keboananom</strong></p>
+    <p style="opacity: 0.6; font-size: 0.8rem; margin-top: 0.5rem;">Kelompok 4 • Kelas Internasional • © 2026 Portal RW 02</p>
+</footer>
+
+<script>
+    function showSection(sectionId) {
+        // Sembunyikan semua section
+        const sections = document.querySelectorAll('section');
+        sections.forEach(sec => sec.classList.remove('active'));
+
+        // Tampilkan yang dipilih
+        const targetSection = document.getElementById(sectionId);
+        targetSection.classList.add('active');
+
+        // Update navigasi
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => link.classList.remove('active'));
+        document.getElementById('link-' + sectionId).classList.add('active');
+
+        // Scroll otomatis ke atas kontainer
+        window.scrollTo({ top: 250, behavior: 'smooth' });
+    }
+
+    // Default view
+    window.onload = function() {
+        showSection('profil');
+    };
+</script>
+
+</body>
+</html>
